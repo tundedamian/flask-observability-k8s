@@ -44,21 +44,21 @@ Copy code
 ```bash
 git clone https://github.com/tundedamian/flask-observability-k8s.git
 cd flask-observability-k8s
+
 Start Minikube (if using Minikube)
-
-bash
-
+```bash
 minikube start
+```
+
 Build and push Docker image
 
-bash
-
+```bash
 docker build -t tundedamian/flask-observability:latest .
 docker push tundedamian/flask-observability:latest
 Apply Kubernetes manifests
+```
 
-bash
-
+```bash
 kubectl apply -f k8s/namespace.yaml
 kubectl apply -f k8s/promtail-rbac.yaml
 kubectl apply -f k8s/promtail-config.yaml
@@ -69,19 +69,23 @@ kubectl apply -f k8s/loki.yaml
 kubectl apply -f k8s/jaeger.yaml
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
+```
+
 Check all pods are running
 
-bash
-
+```bash
 kubectl get pods -o wide
+```
+
 Access services via Minikube
 
-bash
-
+```bash
 minikube service flask-service
 minikube service grafana
 minikube service prometheus
 minikube service jaeger
+```
+
 Observability Features
 Metrics: Flask app exposes Prometheus metrics.
 
@@ -97,10 +101,11 @@ Ensure Promtail has the proper service account and RBAC permissions.
 Notes
 DaemonSet promtail has both name and app labels for easy selection:
 
-bash
-Copy code
+```bash
 kubectl get pods -n default -l name=promtail
 kubectl get pods -n default -l app=promtail
+```
+
 Use /error endpoint in Flask to test tracing with Jaeger.
 
 Author
