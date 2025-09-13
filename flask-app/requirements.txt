@@ -1,13 +1,19 @@
+# Flask app
 Flask==2.2.5
 gunicorn==20.1.0
 
-# OpenTelemetry aligned (stable set)
+# Prometheus monitoring
+prometheus-flask-exporter==0.22.0
+
+# OpenTelemetry core
 opentelemetry-api==1.18.0
 opentelemetry-sdk==1.18.0
+
+# OpenTelemetry Flask instrumentation
 opentelemetry-instrumentation==0.39b0
 opentelemetry-instrumentation-flask==0.39b0
-opentelemetry-exporter-otlp==1.18.0
 
-# Prometheus metrics for Flask
-prometheus-flask-exporter==0.23.2
+# Exporters
+opentelemetry-exporter-otlp==1.18.0
+opentelemetry-exporter-jaeger==1.18.0
 
