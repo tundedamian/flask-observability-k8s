@@ -1,0 +1,7 @@
+Flask==2.2.5
+prometheus-flask-exporter==0.21.3
+opentelemetry-api==1.20.0
+opentelemetry-sdk==1.20.0
+opentelemetry-instrumentation-flask==0.39b0
+opentelemetry-exporter-jaeger==1.20.0
+
