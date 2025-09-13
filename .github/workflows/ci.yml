@@ -10,7 +10,6 @@ on:
 env:
   DOCKERHUB_USERNAME: tundedamian
   DOCKERHUB_REPO: flask-observability
-  IMAGE_NAME: tundedamian/flask-observability
 
 jobs:
   build-and-push:
@@ -29,20 +28,18 @@ jobs:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-      - name: Build Docker image
+      - name: Extract Git info
+        id: git-info
         run: |
-          IMAGE_TAG_LATEST=latest
-          IMAGE_TAG_SHA=${GITHUB_SHA::7}
-          IMAGE_TAG_BRANCH=${GITHUB_REF_NAME}
-          
-          docker build -t $IMAGE_NAME:$IMAGE_TAG_LATEST -t $IMAGE_NAME:$IMAGE_TAG_BRANCH-$IMAGE_TAG_SHA ./flask-app
+          echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
+          echo "COMMIT_SHA=${GITHUB_SHA::8}" >> $GITHUB_ENV
+
+      - name: Build and tag Docker image
+        run: |
+          IMAGE_TAG=${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPO }}:${BRANCH_NAME}-${COMMIT_SHA}
+          docker build -t $IMAGE_TAG ./flask-app
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Push Docker image
-        run: |
-          IMAGE_TAG_LATEST=latest
-          IMAGE_TAG_SHA=${GITHUB_SHA::7}
-          IMAGE_TAG_BRANCH=${GITHUB_REF_NAME}
-          
-          docker push $IMAGE_NAME:$IMAGE_TAG_LATEST
-          docker push $IMAGE_NAME:$IMAGE_TAG_BRANCH-$IMAGE_TAG_SHA
+        run: docker push $IMAGE_TAG
 
