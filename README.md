@@ -86,9 +86,8 @@ Observability Stack Demo
 
 4. Distributed Tracing with Jaeger
 
-5. Demo GIF of App + Metrics + Logs
+5. Demo Picture of App + Metrics + Logs
 
-Replace placeholder URLs with your own screenshots or gifs captured from your local cluster or cloud deployment.
 
 CI/CD Workflow
 
