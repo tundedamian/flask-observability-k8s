@@ -1,102 +1,109 @@
-Flask Observability on Kubernetes
+# Flask Observability on Kubernetes
 
+This repository contains a **Flask application** deployed on a **Kubernetes cluster** with a full observability stack using **Prometheus, Grafana, Loki, Jaeger, and Promtail**.
 
+---
 
+## Project Architecture
 
+- **Flask App**: Python web application with `/metrics` endpoint for Prometheus scraping and `/error` endpoint for simulating errors.
+- **Prometheus**: Scrapes metrics from Flask app and other targets.
+- **Grafana**: Visualizes metrics collected by Prometheus.
+- **Loki**: Centralized log aggregation.
+- **Promtail**: DaemonSet that tails logs from containers and sends them to Loki.
+- **Jaeger**: Distributed tracing for the Flask app.
 
+### Kubernetes Architecture
 
+Namespace: default
+├─ Deployment: flask-app
+├─ Deployment: grafana
+├─ Deployment: prometheus
+├─ Deployment: jaeger
+├─ Deployment: loki
+├─ DaemonSet: promtail
+└─ Services: NodePort for Flask, Grafana, Prometheus, Jaeger
 
+yaml
+Copy code
 
-Overview
+---
 
-This project demonstrates a Flask web application deployed on Kubernetes with a complete observability stack, including:
+## Prerequisites
 
-Prometheus: Metrics collection
+- Docker
+- Kubernetes cluster (Minikube recommended)
+- `kubectl` configured to your cluster
+- Git
 
-Grafana: Metrics visualization
+---
 
-Loki + Promtail: Logging aggregation
+## Setup Instructions
 
-Jaeger: Distributed tracing
+1. **Clone the repository**
+```bash
+git clone https://github.com/tundedamian/flask-observability-k8s.git
+cd flask-observability-k8s
+Start Minikube (if using Minikube)
 
-OpenTelemetry: Application instrumentation
+bash
 
-It highlights professional DevOps practices:
+minikube start
+Build and push Docker image
 
-Dockerized application
+bash
 
-Kubernetes manifests for deployments and services
+docker build -t tundedamian/flask-observability:latest .
+docker push tundedamian/flask-observability:latest
+Apply Kubernetes manifests
 
-CI/CD automation with GitHub Actions
+bash
 
-Docker image versioning with commit SHA + branch name
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/promtail-rbac.yaml
+kubectl apply -f k8s/promtail-config.yaml
+kubectl apply -f k8s/promtail.yaml
+kubectl apply -f k8s/prometheus.yaml
+kubectl apply -f k8s/grafana.yaml
+kubectl apply -f k8s/loki.yaml
+kubectl apply -f k8s/jaeger.yaml
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+Check all pods are running
 
-Project Structure
-.
-├── README.md
-├── flask-app
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── app.py
-├── k8s
-│   ├── deployment.yaml
-│   ├── service.yaml
-│   ├── prometheus.yaml
-│   ├── loki.yaml
-│   ├── promtail.yaml
-│   ├── jaeger.yaml
-│   └── grafana.yaml
-└── .github
-    └── workflows
-        └── ci.yml
+bash
 
-Prerequisites
+kubectl get pods -o wide
+Access services via Minikube
 
-Docker >= 20.x
+bash
 
-Kubernetes cluster (Minikube, kind, or cloud provider)
+minikube service flask-service
+minikube service grafana
+minikube service prometheus
+minikube service jaeger
+Observability Features
+Metrics: Flask app exposes Prometheus metrics.
 
-kubectl CLI installed
+Logging: Promtail collects container logs, Loki stores them, and Grafana visualizes them.
 
-helm CLI (optional, for Prometheus/Grafana charts)
+Tracing: Jaeger captures traces for Flask app requests.
 
-GitHub account with Docker Hub personal access token for CI/CD
+Logs Monitoring with Promtail
+Promtail runs as a DaemonSet and collects logs from /var/log/containers and /var/lib/docker/containers.
 
-Running Locally
-docker build -t flask-observability:latest ./flask-app
-docker run -it -p 5000:5000 flask-observability:latest
+Ensure Promtail has the proper service account and RBAC permissions.
 
+Notes
+DaemonSet promtail has both name and app labels for easy selection:
 
-Access the app at: http://localhost:5000
+bash
+Copy code
+kubectl get pods -n default -l name=promtail
+kubectl get pods -n default -l app=promtail
+Use /error endpoint in Flask to test tracing with Jaeger.
 
-Deploying on Kubernetes
-kubectl apply -f k8s/
-kubectl get pods
-kubectl port-forward svc/flask-service 5000:5000
-
-
-Access the app at: http://localhost:5000
-
-Observability Stack Demo
-1. Metrics with Prometheus
-
-2. Visualizing Metrics in Grafana
-
-3. Centralized Logs with Loki + Promtail
-
-4. Distributed Tracing with Jaeger
-
-5. Demo Picture of App + Metrics + Logs
-
-
-CI/CD Workflow
-
-GitHub Actions automatically builds Docker images on push
-
-Docker images are tagged as: <DOCKERHUB_USERNAME>/<REPO_NAME>:<branch_name>-<commit_sha>
-
-Pushes images to Docker Hub using a personal access token
-
-Example:
-
-tundedamian/flask-observability:main-90bd7ff
+Author
+Ogedengbe Damian Olatunde
+GitHub: tundedamian
+LinkedIn: linkedin.com/in/teedam
