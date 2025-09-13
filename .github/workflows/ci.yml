@@ -10,7 +10,7 @@ on:
 env:
   DOCKERHUB_USERNAME: tundedamian
   DOCKERHUB_REPO: flask-observability
-  IMAGE_NAME: ${{ env.DOCKERHUB_USERNAME }}/flask-observability
+  IMAGE_NAME: tundedamian/flask-observability
 
 jobs:
   build-and-push:
