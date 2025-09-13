@@ -41,11 +41,14 @@ Copy code
 ## Setup Instructions
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/tundedamian/flask-observability-k8s.git
 cd flask-observability-k8s
+```
 
 Start Minikube (if using Minikube)
+
 ```bash
 minikube start
 ```
