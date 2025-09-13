@@ -23,31 +23,32 @@ All Kubernetes manifests are stored in the `k8s/` directory.
    
 ```bash
 kubectl apply -f k8s/namespace.yaml
-Deploy Prometheus:
 ```
+
+2. Deploy Prometheus:
 
 ```bash
 kubectl apply -f k8s/prometheus.yaml
 ```
 
-2. Deploy Grafana:
+3. Deploy Grafana:
 
 ```bash
 kubectl apply -f k8s/grafana.yaml
 ```
 
-3. Deploy Jaeger:
+4. Deploy Jaeger:
 
 ```bash
 kubectl apply -f k8s/jaeger.yaml
 ```
 
-3. Deploy Loki:
+5. Deploy Loki:
 
 ```bash
 kubectl apply -f k8s/loki.yaml
 ```
-4. Deploy Promtail (with RBAC):
+6. Deploy Promtail (with RBAC):
 
 ```bash
 kubectl apply -f k8s/promtail-rbac.yaml
@@ -55,14 +56,14 @@ kubectl apply -f k8s/promtail-config.yaml
 kubectl apply -f k8s/promtail.yaml
 ```
 
-5. Deploy the Flask app:
+7. Deploy the Flask app:
 
 ```bash
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
 ```
 
-6. Verifying Deployments
+8. Verifying Deployments
 Check Promtail pods
 Promtail pods can be selected using either the name or app label:
 
@@ -71,12 +72,12 @@ kubectl get pods -n default -l name=promtail
 kubectl get pods -n default -l app=promtail
 ```
 
-7. Check Flask app pods
+9. Check Flask app pods
 ```bash
 kubectl get pods -n default -l app=flask-app
 ```
 
-8. Testing Observability
+10. Testing Observability
 
 Metrics: Visit the Flask app /metrics endpoint to verify Prometheus metrics are exposed.
 
@@ -84,14 +85,14 @@ Tracing: Trigger the /error endpoint in Flask to test tracing with Jaeger.
 
 Logging: Verify logs are collected by Promtail and available in Grafana Loki.
 
-9. Access Services via Minikube
+11. Access Services via Minikube
 Retrieve the Minikube IP:
 
 ```bash
 minikube ip
 ```
 
-10. Access services via NodePort:
+12. Access services via NodePort:
 
 Flask: http://<minikube-ip>:31152
 
