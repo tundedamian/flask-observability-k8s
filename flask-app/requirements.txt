@@ -15,5 +15,4 @@ opentelemetry-instrumentation-flask==0.39b0
 
 # Exporters
 opentelemetry-exporter-otlp==1.18.0
-opentelemetry-exporter-jaeger==1.18.0
 

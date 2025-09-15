@@ -3,6 +3,11 @@ from flask import Flask, request, jsonify
 import time
 import random
 import logging
+import os
+
+# Enable debug logging for OTLP exporter
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger("flask-otel")
 
 # Prometheus exporter
 from prometheus_flask_exporter import PrometheusMetrics
@@ -14,12 +19,8 @@ from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
-# Choose an exporter — here we use Jaeger exporter (to Jaeger agent/collector)
-from opentelemetry.exporter.jaeger.thrift import JaegerExporter
-
-# Basic logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("flask-otel")
+# Use OTLP exporter instead of Jaeger exporter
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 
 # Flask app
 app = Flask(__name__)
@@ -35,14 +36,12 @@ resource = Resource(attributes={
 tracer_provider = TracerProvider(resource=resource)
 trace.set_tracer_provider(tracer_provider)
 
-# Configure Jaeger exporter: default expects agent on host:6831 (udp) or collector endpoint.
-jaeger_exporter = JaegerExporter(
-    # If you run the Jaeger all-in-one as a k8s service named "jaeger",
-    # collector_endpoint="http://jaeger-collector:14268/api/traces" is an option.
-    # We'll use agent (UDP) default host/port so no args are necessary when agent is on localhost/kube node.
-)
+# Configure OTLP exporter to send traces to Jaeger
+jaeger_host = os.environ.get("JAEGER_AGENT_HOST", "jaeger")
+jaeger_port = os.environ.get("JAEGER_AGENT_PORT", "4317")
+otlp_exporter = OTLPSpanExporter(endpoint=f"{jaeger_host}:{jaeger_port}", insecure=True)
 
-span_processor = BatchSpanProcessor(jaeger_exporter)
+span_processor = BatchSpanProcessor(otlp_exporter)
 tracer_provider.add_span_processor(span_processor)
 
 # Instrument Flask app automatically
