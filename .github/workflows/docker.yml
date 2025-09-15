@@ -14,7 +14,6 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -31,14 +30,18 @@ jobs:
       - name: Extract Git info
         id: git-info
         run: |
-          echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
-          echo "COMMIT_SHA=${GITHUB_SHA::8}" >> $GITHUB_ENV
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}" | sed 's/\//-/g')
+          COMMIT_SHA=${GITHUB_SHA::8}
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          echo "COMMIT_SHA=$COMMIT_SHA" >> $GITHUB_ENV
 
       - name: Build and tag Docker image
         run: |
-          IMAGE_TAG=${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPO }}:${BRANCH_NAME}-${COMMIT_SHA}
+          IMAGE_TAG=${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPO }}:${{ env.BRANCH_NAME }}-${{ env.COMMIT_SHA }}
           docker build -t $IMAGE_TAG ./flask-app
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Push Docker image
-        run: docker push $IMAGE_TAG
+        if: github.event_name == 'push'
+        run: |
+          docker push ${{ env.IMAGE_TAG }}
