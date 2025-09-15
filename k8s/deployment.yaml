@@ -15,13 +15,14 @@ spec:
       containers:
       - name: flask-app
         image: tundedamian/flask-observability:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
         - name: JAEGER_AGENT_HOST
           value: "jaeger"
         - name: JAEGER_AGENT_PORT
-          value: "6831"
+          value: "4317"
         - name: PROMETHEUS_MULTIPROC_DIR
           value: "/tmp"
         volumeMounts:
