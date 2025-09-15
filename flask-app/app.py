@@ -57,6 +57,7 @@ def index():
         return """
         <h2>Flask App with Prometheus metrics & OpenTelemetry traces</h2>
         <p>Try <a href="/hello">/hello</a> or <a href="/error">/error</a>.</p>
+        <!-- Version 1.0 -->
         """
 
 @app.route("/hello")
