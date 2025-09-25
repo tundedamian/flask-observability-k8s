@@ -62,7 +62,7 @@ Here are some screenshots of the deployed services:
 ### Flask App test Metrics
 ![Jaeger Tracing](screenshots/jaeger-tracing.png)
 
-### Application Metrics
+### Main Resources
 ![Application Metrics](screenshots/flask-app-metrics.png)
 
 ### Kubernetes Deployment
