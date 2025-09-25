@@ -65,7 +65,7 @@ Here are some screenshots of the deployed services:
 ### Main Resources
 ![Application Metrics](screenshots/flask-app-metrics.png)
 
-### Kubernetes Deployment
+### Grafana Access Page
 ![Kubernetes Deployment](screenshots/kubernetes-deployment.png)
 
 ### Loki Logs
