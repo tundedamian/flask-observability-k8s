@@ -68,9 +68,6 @@ Here are some screenshots of the deployed services:
 ### Grafana Access Page
 ![Kubernetes Deployment](screenshots/kubernetes-deployment.png)
 
-### Loki Logs
-![Loki Logs](screenshots/loki-logs.png)
-
 ### Flask App Simulated Error For Tracing
 ![Overall Architecture](screenshots/overall-architecture.png)
 
