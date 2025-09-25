@@ -54,7 +54,7 @@ After deployment, you can access the services using port forwarding:
 Here are some screenshots of the deployed services:
 
 ### Jaegar Dashboard
-![Grafana Dashboard](screenshots/Jaegar-dashboard.png)
+![Grafana Dashboard](screenshots/grafana-dashboard.png)
 
 ### Prometheus Metrics
 ![Prometheus Metrics](screenshots/prometheus-dashboard.png)
