@@ -59,7 +59,7 @@ Here are some screenshots of the deployed services:
 ### Flask App with Prometheus and Otel Metrics
 ![Prometheus Metrics](screenshots/prometheus-dashboard.png)
 
-### Jaeger Tracing
+### Flask App test Metrics
 ![Jaeger Tracing](screenshots/jaeger-tracing.png)
 
 ### Application Metrics
