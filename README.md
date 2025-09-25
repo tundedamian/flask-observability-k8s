@@ -49,6 +49,31 @@ After deployment, you can access the services using port forwarding:
 - Jaeger UI: http://localhost:16686
 - Grafana UI: http://localhost:3000 (default admin/admin)
 
+## Screenshots
+
+Here are some screenshots of the deployed services:
+
+### Grafana Dashboard
+![Grafana Dashboard](screenshots/grafana-dashboard.png)
+
+### Prometheus Metrics
+![Prometheus Metrics](screenshots/prometheus-dashboard.png)
+
+### Jaeger Tracing
+![Jaeger Tracing](screenshots/jaeger-tracing.png)
+
+### Application Metrics
+![Application Metrics](screenshots/flask-app-metrics.png)
+
+### Kubernetes Deployment
+![Kubernetes Deployment](screenshots/kubernetes-deployment.png)
+
+### Loki Logs
+![Loki Logs](screenshots/loki-logs.png)
+
+### Overall Architecture
+![Overall Architecture](screenshots/overall-architecture.png)
+
 ## Useful Commands
 
 Check pod status:
