@@ -71,7 +71,7 @@ Here are some screenshots of the deployed services:
 ### Loki Logs
 ![Loki Logs](screenshots/loki-logs.png)
 
-### Overall Architecture
+### Flask App Simulated Error For Tracing
 ![Overall Architecture](screenshots/overall-architecture.png)
 
 ## Useful Commands
